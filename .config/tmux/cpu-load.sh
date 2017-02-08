@@ -5,7 +5,7 @@
 main() {
     total_cpu_cores=`nproc --all`
     cpu_load=`cat /proc/loadavg | awk '{ print $1 }'`
-    cpu_load_percent=$(awk '{printf("%.i",$1/$2*100)}' <<<" ${cpu_load} ${total_cpu_cores} ")
+    cpu_load_percent=$(awk '{printf("%i",$1/$2*100)}' <<<" ${cpu_load} ${total_cpu_cores} ")
 
     if [ ${cpu_load_percent} -lt 30 ]; then
         print_green_string "${cpu_load}"
