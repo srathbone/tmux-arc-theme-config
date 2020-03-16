@@ -5,29 +5,43 @@ setup() {
 }
 
 @test 'itCanParseUptime' {
-    uptime() {
-        echo ' 20:39:40 up  1:11,  1 user,  load average: 0.37, 0.42, 0.33';
+    cat() {
+        echo '8871.30 60807.27';
     }
 
-    export -f uptime
+    export -f cat
     run bash uptime.sh
 
     echo "$output"
 
     [[ $status -eq 0 ]]
-    [[ $output = '1:11' ]]
+    [[ $output = '2:27' ]]
 }
 
 @test 'itCanParseAnUptimeSmallerThanOneHour' {
-    uptime() {
-        echo ' 20:39:40 up 15 minutes,  1 user,  load average: 0.37, 0.42, 0.33';
+    cat() {
+        echo '360.30 60807.27';
     }
 
-    export -f uptime
+    export -f cat
     run bash uptime.sh
 
     echo "$output"
 
     [[ $status -eq 0 ]]
-    [[ $output = '0:15' ]]
+    [[ $output = '0:06' ]]
+}
+
+@test 'itCanParseAnUptimeLargerThanOneDay' {
+    cat() {
+        echo '99222.30 60807.27';
+    }
+
+    export -f cat
+    run bash uptime.sh
+
+    echo "$output"
+
+    [[ $status -eq 0 ]]
+    [[ $output = '27:33' ]]
 }

@@ -1,20 +1,15 @@
 #!/bin/bash
 
-pwd="$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")"
-. "$pwd/colours.sh"
-
 main() {
-    uptime="$(uptime | awk '{ print $3 }' | tr -d ',')"
+    local uptime
+    uptime="$(cat /proc/uptime)"
+    uptime="${uptime%%.*}"
 
-    if [[ "${uptime}" =~ .*:.* ]]; then
-        echo "${uptime}"
-    else
-        if [[ "${uptime}" =~ ^.$ ]]; then
-           echo "0:0${uptime}"
-        else
-           echo "0:${uptime}"
-        fi
-    fi
+    local minutes
+    minutes="$(( uptime / 60 ))"
+    printf "%d:%02d\n" "$(( minutes / 60 ))" "$(( minutes % 60 ))"
+
+    return 0;
 }
 
 main "$@"
