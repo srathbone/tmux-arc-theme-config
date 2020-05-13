@@ -1,6 +1,7 @@
 #!/bin/bash
 
-. ${0%/*}/colours.sh
+pwd="$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")"
+. "$pwd/colours.sh"
 
 main() {
     used_mem="$(free -h | awk '/Mem:/ { print $3 }' | awk '{$1=$1};1')"
