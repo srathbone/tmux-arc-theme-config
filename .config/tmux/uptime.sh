@@ -9,7 +9,7 @@ main() {
 
     local minutes
     minutes="$(( uptime / 60 ))"
-    printf "%d:%d\n" "$(( minutes / 60 ))" "$(( minutes % 60 ))"
+    printf "%02d:%02d\n" "$(( minutes / 60 ))" "$(( minutes % 60 ))"
 
     return 0;
 }
