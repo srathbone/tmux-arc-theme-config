@@ -4,9 +4,13 @@ pwd="$(dirname -- "$(readlink -f -- "${BASH_SOURCE[0]}")")"
 . "$pwd/colours.sh"
 
 main() {
+    local total_cpu_cores
+    local cpu_load
+    local cpu_load_percent
     total_cpu_cores="$(nproc --all)"
-    cpu_load="$(awk '{ print $1 }' < /proc/loadavg)"
-    cpu_load_percent="$(awk '{printf("%i",$1/$2*100)}' <<<" ${cpu_load} ${total_cpu_cores} ")"
+    cpu_load="$(cat /proc/loadavg)"
+    cpu_load="${cpu_load%% *}"
+    cpu_load_percent="$(awk '{printf("%i", ($1 * 100) / $2)}' <<<" ${cpu_load} ${total_cpu_cores} ")"
 
     if [[ "${cpu_load_percent}" -lt 50 ]]; then
         print_green_string "${cpu_load}"
